@@ -1,0 +1,4 @@
+
+D. A and B and Interesting Substrings
+
+http://codeforces.com/contest/519/problem/D
