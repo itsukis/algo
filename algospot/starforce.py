@@ -1,3 +1,5 @@
+## https://algospot.com/judge/problem/read/STARFORCE
+
 import sys
 
 '''
