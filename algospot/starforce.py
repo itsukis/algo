@@ -1,7 +1,6 @@
 ## https://algospot.com/judge/problem/read/STARFORCE
 
 import sys
-
 '''
 N = 6
 M = 2
@@ -26,13 +25,14 @@ def possible_max_bit(bit, A, M):
 	if M == 0:
 		return True;
 
+	if (M == 1) and (bitwise_or(A).bit_length() == bit):
+		return True
+
 	bitwise = A[0]
 	for i in range(0, len(A)-1):
-		if ((bitwise & bitwise_or(A[i+1:])).bit_length == bit):
-			if M == 1:
-				return True
-			else:
-				return possible_max_bit(bit, A[i+1:], M-1)
+		#print 'bit : ', (bitwise & bitwise_or(A[i+1:])).bit_length()
+		if ((bitwise & bitwise_or(A[i+1:])).bit_length() == bit):
+			return possible_max_bit(bit, A[i+1:], M-1)
 		else:
 			bitwise = bitwise | A[i]
 
@@ -47,15 +47,18 @@ def starforce(A, M):
 			return i
 	return 0
 
+def test_main():
+	print starforce(A, M)
+
 def main():
-	A = []
 	iters = sys.stdin.readline().strip()
 	for i in range(0, int(iters)):
+		A = []
 		N, M = sys.stdin.readline().strip().split()
 		
 		for j in range(0, int(N)):
 			A.append(int(sys.stdin.readline().strip()))
-		
+	
 		print starforce(A, int(M))
 
 if __name__ == '__main__':
