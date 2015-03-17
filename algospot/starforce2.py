@@ -1,8 +1,7 @@
-## https://algospot.com/judge/problem/read/STARFORCE
-
 import sys
 
 def bitwise_or(A):
+	print A
 	bitwiseOR = 0
 	for i in A:
 		bitwiseOR = bitwiseOR | i	
@@ -12,45 +11,32 @@ def count_setbit(A):
 	bitwiseOR = bitwise_or(A)
 	return bin(bitwiseOR).count("1")
 
-def find_max_setbit(bit, A, M):
 
+def find_max_setbit(A, M):
+
+	max_setbits = 0
+	max_bits_count = 0
+
+	print A, M
 	if M == 0:
-		return True
+		return bitwise_or(A)
 
-	bitwise = A[0]
-	for i in range(0, len(A)-1):
-		if (bin(bitwise & bitwise_or(A[i+1:])).count("1") >= bit):
-			print A[0:i+1], '|', A[i+1:]
-			return find_max_setbit(bit, A[i+1:], M-1)
-		else:
-			bitwise = bitwise | A[i+1]
+	for i in range(1, len(A)-(M-1)):
+		setbits = bitwise_or(A[0:i]) & find_max_setbit(A[i:], M-1)
+		setbit_count = bin(setbits).count("1")
+		if setbit_count >= max_bits_count:
+			max_bits_count = setbit_count
+			max_setbits = setbits
 
-	if (M == 1) and (bin(bitwise_or(A)).count("1") >= bit):
-		print A, '|'
-		return True	
+	return max_setbits
 
-	return False	
+def starforce(A, M):	
+	print count_setbit(find_max_setbit(A, M))
 
-def starforce(A, M):
-	
-	print_binary(A)
-
-	max_bit = count_setbit(A)
-	print 'max : ', max_bit
-
-	for i in range(max_bit, 0, -1):
-		print '->', i
-		if find_max_setbit(i, A, M):
-			return i
-	return 0
-
-def print_binary(A):
-	for i in A:
-		print i, bin(i)
 
 def test_main():
 	S = '=========================\n'
-	print S, starforce([1, 2, 3, 4], 1)
+	#print S, starforce([9, 12, 6, 3], 2)
 	print S, starforce([15, 14, 13, 12], 3)
 	#print S, starforce([8, 7, 4, 12 ,2, 1], 3)
 	#print S, starforce([4, 2, 1], 2)
