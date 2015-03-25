@@ -15,20 +15,15 @@ def is_pdna(S):
 
 def permutate_dna(A):
 	N = len(A)
-	perm_list = list(itertools.permutations(range(N), N))
 	perm_set = set()
 	
-	for perm in perm_list:
+	for perm in itertools.permutations(range(N), N):
 		dna = ''
-		for idx in perm:
+		for idx in list(perm):
 			dna = dna + A[idx]
 		if is_pdna(dna):
 			perm_set.add(dna)
 	return sorted(list(perm_set))[0]
-
-def test():
-	print permutate_dna(["aa", "att", "aaa"])
-	print permutate_dna(["ac", "tgt", "ac", "caca"])
 
 def _main():
 	iters = sys.stdin.readline().strip()
