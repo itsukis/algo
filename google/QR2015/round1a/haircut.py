@@ -5,36 +5,23 @@ import sys
 def binary_search(N, b):
 	first = 0
 	last = min(b) * N
-	found = (False, 0, [])
+	found = False
 
-	while first <= last and not found[0]:
-		midpoint = (first + last) / 2
+	while first <= last and not found:
+		
+		mid = (first + last) / 2
+		ub = count_haircuts(b, mid)
+		av, avl = count_available_bar(b, mid)
 
-		found = find(N, b, midpoint)
-
-		print "->", first, la
-		print "-->", midpoint, found
-
-		if found[0] == True:
-			i = N - found[1] - 1
-			return found[2][i] + 1
+		if N > ub and N <= (ub + av):
+			found = True
 		else:
-			if N <= found[1]:
-				last = midpoint - 1
+			if N <= ub:
+				last = mid - 1
 			else:
-				first = midpoint + 1
-	return -1			
-
-def find(N, b, t):
-	cpl = count_completed_cuts(b, t)
-	avb, avbl = count_available_bar(b, t)
-
-	#print cpl, avb, avbl
-
-	if N > cpl and N <= cpl + avb:
-		return True, cpl, avbl
-	else: 
-		return False, cpl, []
+				first = mid + 1
+	
+	return avl[N-ub-1]+1			
 
 def count_available_bar(b, t):
 	abl = []
@@ -48,6 +35,17 @@ def count_available_bar(b, t):
 
 	return sum, abl
 
+def count_haircuts(b, t):
+	sum = 0
+	for bt in b:
+		c = t / bt
+		if t % bt == 0:
+			sum = sum + c
+		else:
+			sum = sum + c + 1
+
+	return sum
+
 def count_completed_cuts(b, t):
 	sum = 0
 	for bt in b:
@@ -57,10 +55,9 @@ def count_completed_cuts(b, t):
 	return sum
 
 def unit_test():
-	#print binary_search(4, [10, 5])
-	#print count_available_bar([2, 2, 2], 0)
-	print binary_search(3, [2, 2, 2])
-	#print binary_search(8, [4, 2, 1])
+	print binary_search(4, [10, 5])
+	print binary_search(12, [7, 7, 7,])
+	print binary_search(8, [4, 2, 1])
 
 def input():
 	N = int(sys.stdin.readline().strip().split()[1])
@@ -76,8 +73,8 @@ def solve():
     	print("Case #%d:" % (i+1)), r	
 
 def main():
-	unit_test()
-	#solve()
+	#unit_test()
+	solve()
 
 if __name__=='__main__':
 	main()
