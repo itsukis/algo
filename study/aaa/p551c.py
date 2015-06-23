@@ -6,6 +6,21 @@ def unit_test(ans, result):
 	else:
 		return False
 
+def nextA(A, T):
+	for i in xrange(len(A)):
+		T = T - 1
+		if T >= A[i]:
+			A[i] = 0
+			T = T - A[i]
+		else:
+			A[i] = A[i] - T
+			return A
+	return A
+
+def possible(N, M, A, T):
+	return
+		
+
 def solve(N, M, P):
 	i = 0
 	t = 1
@@ -31,6 +46,10 @@ def solve(N, M, P):
 
 	return t
 
+def test():
+	A = nextA([1,1], 3)
+	print A
+
 def unit():
 	C1 = [2,1,[1,1],4]
 	C2 = [3,2,[1,0,2],5]
@@ -41,6 +60,9 @@ def unit():
 	print unit_test(C3[3], solve(C3[0], C3[1], C3[2]))
 
 def main():
+
+	test()
+	return
 
 	N, M = sys.stdin.readline().strip().split()
 	P = [int(x) for x in sys.stdin.readline().strip().split()]
