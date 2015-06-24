@@ -14,7 +14,7 @@ def binsearch(N, M, A):
 	while min < max:
 		mid = (min + max) / 2
 		p = possible(N, M, A, mid)
-		#print min, mid, max, p
+		print min, mid, max, p
 		if p == True:
 			if max == mid + 1:
 				return mid
@@ -47,10 +47,10 @@ def nextA(N, A, t, l):
 
 def possible(N, M, P, T):
 	A = list(P)
+	t = T
+	l = 0
 	for i in xrange(M):
-		t = T
-		l = 0
-		A, l = nextA(N, A, t, l)
+		A, l = nextA(N, A, t-l, l)
 		if empty(N, A, l):
 			return True
 	return False
