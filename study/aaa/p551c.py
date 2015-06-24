@@ -1,4 +1,5 @@
 import sys
+#import time
 
 def unit_test(ans, result):
 	if ans == result:
@@ -6,49 +7,66 @@ def unit_test(ans, result):
 	else:
 		return False
 
-def nextA(A, T):
-	for i in xrange(len(A)):
-		T = T - 1
-		if T >= A[i]:
-			A[i] = 0
-			T = T - A[i]
+def binsearch(N, M, A):
+	min = 2
+	max = sum(A) + N + 1
+
+	while min < max:
+		mid = (min + max) / 2
+		p = possible(N, M, A, mid)
+		#print min, mid, max, p
+		if p == True:
+			if max == mid + 1:
+				return mid
+			else:
+				max = mid + 1
 		else:
-			A[i] = A[i] - T
-			return A
-	return A
+			min = mid
 
-def possible(N, M, A, T):
-	return
-		
+	return mid
 
-def solve(N, M, P):
-	i = 0
-	t = 1
-
-	while i < N-1 :
-		if P[i] <= M:
-			P[i+1] = P[i+1] + P[i]
-			P[i] = 0
-			i = i + 1
-		else:
-			P[i] = P[i] - M
-			P[i+1] = P[i+1] + M 
-
-		t = t + 1
-		#print P, t
-
-	if P[N-1] % M == 0:
-		t = P[N-1] / M + t
+def empty(N, A, l):
+	if (N-1 == l) and (A[l] == 0):
+		return True
 	else:
-		t = P[N-1] / M + 1 + t
-	
-#	print t
+		return False
 
-	return t
+def nextA(N, A, t, l):
+	for i in xrange(l, N):
+		if t == 0:
+			return A, i
+		t = t - 1
+		#print A, t
+		if t >= A[i]:
+			t = t - A[i]
+			A[i] = 0
+		else:
+			A[i] = A[i] - t
+			return A, i
+	return A, i
 
+def possible(N, M, P, T):
+	A = list(P)
+	for i in xrange(M):
+		t = T
+		l = 0
+		A, l = nextA(N, A, t, l)
+		if empty(N, A, l):
+			return True
+	return False
+		
 def test():
-	A = nextA([1,1], 3)
-	print A
+	C1 = [2,1,[1,1],4]
+	C2 = [3,2,[1,0,2],5]
+	C3 = [4,100,[3,4,5,4],5]
+
+	print binsearch(C1[0], C1[1], C1[2])
+	print binsearch(C2[0], C2[1], C2[2])
+	print binsearch(C3[0], C3[1], C3[2])
+
+	#print possible(C1[0], C1[1], C1[2], 4)
+	#print possible(C2[0], C2[1], C2[2], 6)
+	#print possible(C3[0], C3[1], C3[2], 6)
 
 def unit():
 	C1 = [2,1,[1,1],4]
@@ -61,13 +79,11 @@ def unit():
 
 def main():
 
-	test()
-	return
-
 	N, M = sys.stdin.readline().strip().split()
 	P = [int(x) for x in sys.stdin.readline().strip().split()]
-
-	print solve(int(N), int(M), P)
+	#t = time.time()
+	print binsearch(int(N), int(M), P)
+	#print "elapsed time = ", time.time() - t
 
 if __name__ == '__main__':
 	main()
