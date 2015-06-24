@@ -1,5 +1,4 @@
 import sys
-#import time
 
 def unit_test(ans, result):
 	if ans == result:
@@ -10,20 +9,19 @@ def unit_test(ans, result):
 def binsearch(N, M, A):
 	min = 2
 	max = sum(A) + N + 1
-
-	while min < max:
+	last = 0
+	n = findEnd(N, A) + 1
+	while min <= max:
 		mid = (min + max) / 2
-		p = possible(N, M, A, mid)
-		print min, mid, max, p
+		p = possible(n, M, A[0:n], mid)
+		#print min, mid, max, p
 		if p == True:
-			if max == mid + 1:
-				return mid
-			else:
-				max = mid + 1
+			last = mid
+			max = mid - 1
 		else:
-			min = mid
+			min = mid + 1
 
-	return mid
+	return last
 
 def empty(N, A, l):
 	if (N-1 == l) and (A[l] == 0):
@@ -36,7 +34,6 @@ def nextA(N, A, t, l):
 		if t == 0:
 			return A, i
 		t = t - 1
-		#print A, t
 		if t >= A[i]:
 			t = t - A[i]
 			A[i] = 0
@@ -45,13 +42,19 @@ def nextA(N, A, t, l):
 			return A, i
 	return A, i
 
+def findEnd(N, P):
+	for i in xrange(N-1, -1, -1):
+		if P[i] != 0:
+			return i
+	return 0
+
 def possible(N, M, P, T):
 	A = list(P)
 	t = T
-	l = 0
+	s = 0
 	for i in xrange(M):
-		A, l = nextA(N, A, t-l, l)
-		if empty(N, A, l):
+		A, s = nextA(N, A, t-s, s)
+		if empty(N, A, s):
 			return True
 	return False
 		

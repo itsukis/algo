@@ -1,6 +1,10 @@
 import sys
 
-max_t = 0
+def empty(P):
+    for p in P:
+        if p != 0:
+            return False
+    return True
 
 def min(a, b):
     if (a < b):
@@ -8,12 +12,13 @@ def min(a, b):
     else:
         return b
 
-def balancePancake(d, P, t, max_t):
-    if (d == 0) or (t > max_t):
+def balancePancake(P, t, max_t):
+    if empty(P) or (t > max_t):
         return t
 
-    for p in P:
-        for i in range(p, 0, -1):
+    for i in range(0, len(P)):
+        for j in range(p, 0, -1):
+            balancePancake()    
 
 
 

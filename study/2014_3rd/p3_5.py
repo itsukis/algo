@@ -26,8 +26,8 @@ def solve_fast(N, M, K, L):
 		for m in M:
 			D2[m[0]] = D2[m[0]] + D1[m[1]]
 
-#		for n in xrange(1, N+1):
-#			D2[n] = D2[n] % denom
+		for n in xrange(1, N+1):
+			D2[n] = D2[n] % denom
 
 		for k in xrange(2, K+2):
 			R[k] = (R[k] + D2[k]) % Pm[k]
@@ -50,7 +50,7 @@ def main():
 	init()
 	iters = sys.stdin.readline().strip()
 	for i in range(int(iters)):
-		sys.stderr.write("Solving test case #" + str(i) + "...\n")
+		#sys.stderr.write("Solving test case #" + str(i) + "...\n")
 		N, M, K, L = sys.stdin.readline().strip().split()
 		LKM = []
 		for j in range(int(M)):
