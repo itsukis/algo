@@ -30,7 +30,6 @@ def solve(P):
 
     return 0
 
-
 def main():
     result = []
     T = sys.stdin.readline().strip()
