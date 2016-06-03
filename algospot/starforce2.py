@@ -31,7 +31,7 @@ def find_max_setbit(A, M):
 	return max_setbits
 
 def starforce(A, M):	
-	print count_setbit(find_max_setbit(A, M))
+	
 
 
 def test_main():
