@@ -29,6 +29,7 @@ void solve()
 
 			cout << dc;
 		}
+		
 		cout << endl;
 	}
 	return;
