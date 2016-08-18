@@ -8,8 +8,6 @@ int reachToW(char map[50][50], int i, int j, int M, int N)
 {
 	int ret = 0;
 
-	//cout << "rTW" << endl;
-
 	if (i <= 0 || i >= N-1) return 1;
 	
 	if (j <= 0 || j >= M-1) return 1;
@@ -19,6 +17,14 @@ int reachToW(char map[50][50], int i, int j, int M, int N)
 	if (map[i][j] == '1' || map[i][j] == 'C' || map[i][j] == 'T') return 0; 
 
 	map[i][j] = 'T';
+
+	if (map[i-1][j] == 'W' || 
+		map[i][j-1] == 'W' ||
+		map[i+1][j] == 'W' ||
+		map[i][j+1] == 'W') {
+		map[i][j] = 'W';
+		return 1;
+	}
 
 	// UP
 	if (map[i-1][j] == '0') {
@@ -52,6 +58,8 @@ int reachToW(char map[50][50], int i, int j, int M, int N)
 		}
 	}
 
+	map[i][j] = '0';
+
 	return ret;
 }
 
@@ -63,8 +71,6 @@ int melt(char imap[50][50], int nSnow, int M, int N)
 	memcpy(map, imap, 50*50*sizeof(char));
 
 	while (nSnow > 0) {
-		//cout << "nSnow : " << nSnow << endl;
-
 		for (int i = 0 ; i < N ; i++) {
 			for (int j = 0 ; j < M ; j++) {
 								
@@ -75,25 +81,25 @@ int melt(char imap[50][50], int nSnow, int M, int N)
 					int flag = 0;
 
 					// UP
-					if ((i == 0) || (map[i-1][j] == '0')) {
+					if (map[i-1][j] != '1') {
 						if (reachToW(map, i-1, j, N, M))
 							flag++;
 					}
 
 					// LEFT
-					if ((j == 0) || (map[i][j-1] == '0')) {
+					if (map[i][j-1] != '1') {
 						if (reachToW(map, i, j-1, N, M))
 							flag++;
 					}
 
 					// DOWN
-					if ((i == N-1) || (map[i+1][j] == '0')) {
+					if (map[i+1][j] != '1') {
 						if (reachToW(map, i+1, j, N, M))
 							flag++;
 					}
 
 					// RIGHT
-					if ((j == M-1) || (map[i][j+1] == '0')) {
+					if (map[i][j+1] != '1') {
 						if (reachToW(map, i, j+1, N, M))
 							flag++;
 					}
@@ -101,15 +107,28 @@ int melt(char imap[50][50], int nSnow, int M, int N)
 					if (flag >= 2) {
 						map[i][j] = 'C';
 						nSnow--;
-					}
-					// 'T' -> '0'
-					for (int i = 0 ; i < N ; i++)
-						for (int j = 0 ; j < M ; j++)
-							if (map[i][j] == 'T' || map[i][j] == 'W')
-								map[i][j] = '0';						
+					}					
 				}
 			}
 		}
+
+		/*
+		// 'T' -> '0'
+		for (int i = 0 ; i < N ; i++)
+			for (int j = 0 ; j < M ; j++)
+				if (map[i][j] == 'T')
+					map[i][j] = '0';	
+
+		// Print
+		for (int i = 0 ; i < N ; i++) {
+			for (int j = 0 ; j < M ; j++) {
+				cout << map[i][j] << ' ';
+			}
+			cout << '\n';
+		}
+		cout << "-----" << endl;
+		//
+		*/
 
 		// Clear
 		for (int i = 0 ; i < N ; i++)
@@ -125,8 +144,6 @@ int melt(char imap[50][50], int nSnow, int M, int N)
 void dfs(char map[50][50], int i, int j, int M, int N)
 {
 	int count = 0;
-
-	//cout << "dfs : " << i << " " << j << endl;
 
 	if ((map[i-1][j] != '1') &&
 		(map[i+1][j] != '1') &&
@@ -170,8 +187,6 @@ int car(char imap[50][50], int M, int N)
 	for (int i = 0 ; i < N ; i++) {
 		for (int j = 0 ; j < M ; j++) {
 			if (map[i][j] == '1') {
-
-				//cout << i << " " << j << endl;
 
 				map[i][j] = 'C';
 
